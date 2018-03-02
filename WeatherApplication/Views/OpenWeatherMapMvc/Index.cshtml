@@ -1,0 +1,54 @@
+﻿@model  WeatherApplication.Models.OpenWeatherMap
+<style>
+    #apiDiv {
+        padding-left: 20px;
+    }
+
+        #apiDiv select, #apiDiv button {
+            font-size: 25px;
+        }
+
+        #apiDiv h4 {
+            margin: 10px 0;
+        }
+
+        #apiDiv #message table {
+            width: 100%;
+            border: double 1px #00ffff;
+            background: #ff6a00;
+        }
+
+            #apiDiv #message table th {
+                text-align: left;
+                background: #4CAF50;
+            }
+</style>
+<h1>Implement OpenWeatherMap API in ASP.NET MVC</h1>
+<input type="text" id="City"/>
+
+<input type="button"  value="Send" onclick="GetWeatherInfo()"/>
+
+<div id="weather"></div>
+    @section scripts{
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script type="text/javascript">
+
+            function GetWeatherInfo() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/OpenWeatherMapMvc/GetWeather',
+                    data: { City: $("#City").val() },
+                    success: function (response) {
+                        var values = JSON.parse(response);
+                        $("#weather").html('Longitude:'+obj.coord.lon + '<br/>'+'Latitude:' + obj.coord.lat+'<br/>');
+                        //     $("#weather").html(response);
+                    },
+                    error: function () {
+                        alert('Error');
+                    }
+                });
+            }
+        </script>
+
+    }
+
